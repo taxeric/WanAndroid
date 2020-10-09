@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+    </com.google.android.material.appbar.AppBarLayout>
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        app:title="@string/home"-->
+<!--        android:background="@color/teal_200"-->
+<!--        android:theme="@style/ThemeOverlay.AppCompat.Dark"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"/>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/test_rv"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WanAndroid</string>
+
+    <string name="star">我的积分</string>
+    <string name="collect">我的收藏</string>
+    <string name="share">我的分享</string>
+    <string name="setting">设置</string>
+
+    <string name="please_login">请登录</string>
+    <string name="load_more">点击加载更多</string>
+
+    <string name="home">首页</string>
+    <string name="qa">问答</string>
+</resources>
