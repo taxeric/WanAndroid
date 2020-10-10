@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.mvp.BaseView
 import com.eric.wanandroid.utils.LogUtils
 
@@ -17,6 +18,8 @@ abstract class BaseFragment: Fragment(), BaseView {
 
     private var isInited = false
     private var toast: Toast ?= null
+
+    protected lateinit var presenter: BasePresenter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +35,14 @@ abstract class BaseFragment: Fragment(), BaseView {
         super.onViewCreated(view, savedInstanceState)
         if (!isInited){
             isInited = true
+            presenter = installPresenter()
             initData()
         }
     }
 
     protected abstract fun setLayout(): Int
+
+    protected abstract fun installPresenter(): BasePresenter
 
     open fun initListener(){
     }
@@ -67,5 +73,10 @@ abstract class BaseFragment: Fragment(), BaseView {
 
     override fun disLoadingDialog() {
         TODO("Not yet implemented")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachVM()
     }
 }

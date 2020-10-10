@@ -10,5 +10,7 @@
     <string name="load_more">点击加载更多</string>
 
     <string name="home">首页</string>
+    <string name="square">广场</string>
     <string name="qa">问答</string>
+    
 </resources>

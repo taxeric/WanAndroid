@@ -3,6 +3,9 @@
     <item android:id="@+id/menu_home"
         android:title="@string/home"
         android:icon="@drawable/ic_home"/>
+    <item android:id="@+id/menu_square"
+        android:title="@string/square"
+        android:icon="@drawable/ic_square"/>
     <item android:id="@+id/menu_qa"
         android:title="@string/qa"
         android:icon="@drawable/ic_qa"/>

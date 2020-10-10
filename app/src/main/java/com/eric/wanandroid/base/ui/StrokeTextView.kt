@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import com.eric.wanandroid.R
+import com.eric.wanandroid.utils.DpPxUtils
+import com.eric.wanandroid.utils.LogUtils
 
 
 /**
@@ -31,9 +33,11 @@ class StrokeTextView: AppCompatTextView {
     private fun init(context: Context, attrs: AttributeSet){
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.StrokeTextView)
         val strokeColor = typeArray.getColor(R.styleable.StrokeTextView_strokeColor, Color.RED)
+        val strokeWidth = typeArray.getFloat(R.styleable.StrokeTextView_strokeWidthX, 1f)
         paint.color = strokeColor
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 1f
+        paint.strokeWidth = DpPxUtils.dp2px(strokeWidth).toFloat()
+        LogUtils.i("strokeWidth = $strokeWidth & ${DpPxUtils.dp2px(strokeWidth.toFloat()).toFloat()}")
         typeArray.recycle()
     }
 }

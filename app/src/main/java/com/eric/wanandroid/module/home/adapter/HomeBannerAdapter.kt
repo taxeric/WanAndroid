@@ -1,4 +1,4 @@
-package com.eric.wanandroid.home.adapter
+package com.eric.wanandroid.module.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.eric.wanandroid.R
 import com.eric.wanandroid.bean.HomeBannerData
-import com.eric.wanandroid.utils.LogUtils
 import kotlinx.android.synthetic.main.home_banner_item.view.*
 
 
@@ -20,7 +19,7 @@ class HomeBannerAdapter constructor(
         private val list: MutableList<HomeBannerData>
 ): PagerAdapter() {
 
-    private var listener: OnBannerItemClickListener ?= null
+    private var listener: OnBannerItemClickListener?= null
 
     fun setOnBannerClickListener(listener: OnBannerItemClickListener){
         this.listener = listener
@@ -35,7 +34,7 @@ class HomeBannerAdapter constructor(
         Glide.with(context).load(list[position].imagePath).into(view.vp_banner_pic)
         view.setOnClickListener {
             if (listener != null) {
-                listener!!.onClick(list[position].url)
+                listener!!.onBannerItemClick(list[position].url)
             }
         }
         container.addView(view)
@@ -48,6 +47,6 @@ class HomeBannerAdapter constructor(
     }
 
     interface OnBannerItemClickListener{
-        fun onClick(url: String)
+        fun onBannerItemClick(url: String)
     }
 }

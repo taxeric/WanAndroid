@@ -10,15 +10,23 @@ import java.lang.ref.WeakReference
 abstract class BasePresenter {
 
     private var mView: Reference<BaseView> ?= null
+    protected lateinit var mModel: BaseModel
+
+    abstract fun installModel(): BaseModel
 
     fun attachView(view: BaseView){
         mView = WeakReference<BaseView>(view)
     }
 
-    fun detachView(){
+    fun attachModel(){
+        mModel = installModel()
+    }
+
+    fun detachVM(){
         if (mView != null){
-            mView!!.clear()
-            mView = null
+            this.mView!!.clear()
+            this.mView = null
         }
+        mModel.onDestory()
     }
 }

@@ -2,64 +2,88 @@ package com.eric.wanandroid.presenter
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.eric.wanandroid.base.RvListener
+import com.eric.wanandroid.base.mvp.BaseModel
 import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.net.ResponseResult
 import com.eric.wanandroid.bean.*
-import com.eric.wanandroid.home.adapter.HomeRvAdapter
+import com.eric.wanandroid.module.home.adapter.HomeBannerAdapter
+import com.eric.wanandroid.module.home.adapter.HomeRvAdapter
 import com.eric.wanandroid.imodelImpl.IHomeModelImpl
 import com.eric.wanandroid.iview.IHomeView
 import com.eric.wanandroid.utils.LogUtils
-import kotlinx.android.synthetic.main.fragment_home.*
-
 
 /**
  * Created by eric on 20-9-22
  */
 class HomePresenterImpl(
     private val view: IHomeView,
-    home_rv: RecyclerView,
-    listener: RvListener.OnItemClickListener,
-    context: Context
+    context: Context,
+    rvItemClickListener: RvListener.OnItemClickListener,
+    bannerItemClickListener: HomeBannerAdapter.OnBannerItemClickListener
 ): BasePresenter(), HomeRvAdapter.SetFootViewText {
 
     private var articleAdapter: HomeRvAdapter
     private val articleMutableList = mutableListOf<HomeDataX>()
+
+    private var bannerAdapter: HomeBannerAdapter
     private val bannerDataList = mutableListOf<HomeBannerData>()
 
     init {
         attachView(view)
-        home_rv.layoutManager = LinearLayoutManager(context)
-        bannerDataList.add(createNullBannerData())
-        articleMutableList.add(createNullHomeArticleData())
-        articleAdapter = HomeRvAdapter(context, bannerDataList, articleMutableList,this)
-        articleAdapter.setItemClickListener(listener)
-        home_rv.adapter = articleAdapter
+        attachModel()
+        LogUtils.i("is null ? ${view.getRv()} & ${view.getVP()}")
+        view.getRv().layoutManager = LinearLayoutManager(context)
+
+        articleAdapter = HomeRvAdapter(
+            context,
+            articleMutableList,
+            this
+        )
+        articleAdapter.setItemClickListener(rvItemClickListener)
+        view.getRv().adapter = articleAdapter
+
+        bannerAdapter =
+            HomeBannerAdapter(
+                context,
+                bannerDataList
+            )
+        bannerAdapter.setOnBannerClickListener(bannerItemClickListener)
+        view.getVP().adapter = bannerAdapter
     }
 
-    private val homeModel = IHomeModelImpl()
+    override fun installModel(): BaseModel = IHomeModelImpl()
 
     fun getBanner(){
-        homeModel.getBanner(object: ResponseResult<HomeBannerEntity>{
+        (mModel as IHomeModelImpl).getBanner(object: ResponseResult<HomeBannerEntity>{
             override fun onSuccess(t: HomeBannerEntity) {
-//                view.addBannerList(t.data)
                 bannerDataList.clear()
                 bannerDataList.addAll(t.data)
                 LogUtils.i("size = ${t.data.size}")
-                articleAdapter.notifyItemChanged(0)
-                view.updateBanner()
+                bannerAdapter.notifyDataSetChanged()
+
+                view.updateBanner(true)
+            }
+
+            override fun onFail(code: Int, msg: String) {
+                super.onFail(code, msg)
+                view.updateBanner(false)
             }
         })
     }
 
     fun getArticle(){
-        homeModel.getArticle(object: ResponseResult<HomeArticleEntity>{
+        (mModel as IHomeModelImpl).getArticle(object: ResponseResult<HomeArticleEntity>{
             override fun onSuccess(t: HomeArticleEntity) {
 //                view.addArticleList(t.data.datas)
                 articleMutableList.addAll(t.data.datas)
                 articleAdapter.notifyDataSetChanged()
-                view.updateArticle()
+                view.updateArticle(true)
+            }
+
+            override fun onFail(code: Int, msg: String) {
+                super.onFail(code, msg)
+                view.updateArticle(false)
             }
         })
     }

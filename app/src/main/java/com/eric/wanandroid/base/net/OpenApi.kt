@@ -1,8 +1,6 @@
 package com.eric.wanandroid.base.net
 
-import com.eric.wanandroid.bean.HomeArticleEntity
-import com.eric.wanandroid.bean.HomeBannerEntity
-import com.eric.wanandroid.bean.PersonalInfoEntity
+import com.eric.wanandroid.bean.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,6 +11,9 @@ import retrofit2.http.Path
  */
 interface OpenApi {
 
+    /**
+     * 首页轮播图
+     */
     @GET("banner/json")
     fun getBanner(): Call<HomeBannerEntity>
 
@@ -29,4 +30,17 @@ interface OpenApi {
      */
     @GET("lg/coin/userinfo/json")
     fun getPersonalInfo(): Call<PersonalInfoEntity>
+
+    /**
+     * 获取问答列表
+     */
+    @GET("wenda/list/{page}/json")
+    fun getQAList(
+        @Path("page") page: String
+    ): Call<QAEntity>
+
+    @GET("user_article/list/{page}/json")
+    fun getSquareArticle(
+        @Path("page") page: String
+    ): Call<SquareEntity>
 }

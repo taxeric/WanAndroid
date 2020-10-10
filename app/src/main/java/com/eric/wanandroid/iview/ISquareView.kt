@@ -10,9 +10,7 @@ import com.eric.wanandroid.bean.HomeDataX
 /**
  * Created by eric on 20-9-22
  */
-interface IHomeView: BaseView {
-    fun getVP(): ViewPager
+interface ISquareView: BaseView {
     fun getRv(): RecyclerView
-    fun updateBanner(isSuccessful: Boolean)
-    fun updateArticle(isSuccessful: Boolean)
+    fun updateSquareArticle(isSuccessful: Boolean)
 }

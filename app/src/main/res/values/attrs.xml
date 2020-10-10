@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="StrokeTextView">
         <attr name="strokeColor" format="color"/>
+        <attr name="strokeWidthX" format="float"/>
     </declare-styleable>
 </resources>

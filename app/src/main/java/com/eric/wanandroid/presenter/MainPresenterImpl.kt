@@ -1,11 +1,11 @@
 package com.eric.wanandroid.presenter
 
+import com.eric.wanandroid.base.mvp.BaseModel
 import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.net.ResponseResult
 import com.eric.wanandroid.bean.PersonalInfoEntity
 import com.eric.wanandroid.imodelImpl.IMainModelImpl
 import com.eric.wanandroid.iview.IMainView
-
 
 /**
  * Created by eric on 20-9-22
@@ -16,12 +16,13 @@ class MainPresenterImpl constructor(
 
     init {
         attachView(view)
+        attachModel()
     }
 
-    private val mainModel = IMainModelImpl()
+    override fun installModel(): BaseModel = IMainModelImpl()
 
     fun getInfo(){
-        mainModel.getPersonalInfo(object: ResponseResult<PersonalInfoEntity>{
+        (mModel as IMainModelImpl).getPersonalInfo(object: ResponseResult<PersonalInfoEntity>{
             override fun onSuccess(t: PersonalInfoEntity) {
                 view.setHeaderImg()
                 view.setHeaderName(t.data.username)

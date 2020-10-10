@@ -12,5 +12,7 @@ open class Config {
 
         const val LOCAL_SP_NAME = "localData"
         const val SP_KEY_IS_LOGIN = "isLogin"
+
+        var DENSITY = 0.0f
     }
 }

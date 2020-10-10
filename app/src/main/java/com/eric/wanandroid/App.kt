@@ -1,8 +1,10 @@
 package com.eric.wanandroid
 
 import android.app.Application
+import com.eric.wanandroid.base.Config
 import com.eric.wanandroid.base.net.RetrofitConfig
 import com.eric.wanandroid.base.net.RetrofitUtils
+import com.eric.wanandroid.utils.LogUtils
 import com.eric.wanandroid.utils.ShareUtils
 
 /**
@@ -14,6 +16,8 @@ class App: Application(), RetrofitConfig {
         super.onCreate()
         RetrofitUtils.init(this)
         ShareUtils.init(this)
+        Config.DENSITY = resources.displayMetrics.density
+        LogUtils.i("density = ${Config.DENSITY}")
     }
 
     override fun baseUrl(): String = "https://www.wanandroid.com/"
