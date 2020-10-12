@@ -1,8 +1,11 @@
 package com.eric.wanandroid.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.view.MenuItem
 import android.view.View
 import com.eric.wanandroid.R
+import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.ui.BaseActivity
 import com.eric.wanandroid.base.ui.BaseFragment
 import com.eric.wanandroid.cache.LocalCache
@@ -20,7 +23,9 @@ import kotlinx.android.synthetic.main.nav_header_layout.view.*
 class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSelectedListener,
     BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private val presenter = MainPresenterImpl(this)
+    private val REQUEST_CODE = 101
+    private var isLogin: Boolean = false
+
     private lateinit var headerView: View
 
     private lateinit var curFragment: BaseFragment
@@ -43,16 +48,28 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
         initDrawerData()
     }
 
+    override fun installPresenter(): BasePresenter = MainPresenterImpl(this)
+
     /**
      * 初始化侧滑栏数据
      */
     private fun initDrawerData(){
         headerView = nav_view.getHeaderView(0)
-        if (LocalCache.isLogin){
-            presenter.getInfo()
+        //获取登录状态
+        isLogin = LocalCache.getLoginStatus(true)
+        if (isLogin){
+            (presenter as MainPresenterImpl).getInfo()
         } else {
             headerView.header_name.text = getString(R.string.please_login)
             headerView.header_ranking.text = ""
+        }
+        headerView.header_img.setOnClickListener { login() }
+    }
+
+    private fun login() {
+        //如果没有登录则跳转到登录页面
+        if (!isLogin){
+            toActivityForResult(LoginActivity(), REQUEST_CODE)
         }
     }
 
@@ -66,6 +83,19 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
 
     override fun setHeaderRanking(ranking: String) {
         headerView.header_ranking.text = ranking
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE){
+            if (resultCode == Activity.RESULT_OK){
+                //把是否获取本地cookie的flag置为true，表示重新获取本地cookie
+                LocalCache.updateCookie = true
+                //重新获取登录状态
+                isLogin = LocalCache.getLoginStatus(true)
+                (presenter as MainPresenterImpl).getInfo()
+            }
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

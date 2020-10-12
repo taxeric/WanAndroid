@@ -37,7 +37,9 @@ class RetrofitUtils private constructor(
             }
         })
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val httpClient = OkHttpClient.Builder().addInterceptor(interceptor)
+        val httpClient = OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .addInterceptor(AddCookieInterceptor())
         if (!config.grabEnable()){
             httpClient.proxy(Proxy.NO_PROXY)
         }
@@ -60,6 +62,18 @@ class RetrofitUtils private constructor(
 
         fun getInstance(): RetrofitUtils {
             return INSTANCE!!
+        }
+
+        fun createRequest(
+            baseUrl: String,
+            client: OkHttpClient
+        ): OpenApi{
+            val retrofit = Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+            return retrofit.create(OpenApi::class.java)
         }
 
         fun <T> disCall(call: Call<T>?){

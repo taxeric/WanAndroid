@@ -4,6 +4,7 @@ import com.eric.wanandroid.base.mvp.BaseModel
 import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.net.ResponseResult
 import com.eric.wanandroid.bean.PersonalInfoEntity
+import com.eric.wanandroid.cache.LocalCache
 import com.eric.wanandroid.imodelImpl.IMainModelImpl
 import com.eric.wanandroid.iview.IMainView
 
@@ -24,9 +25,12 @@ class MainPresenterImpl constructor(
     fun getInfo(){
         (mModel as IMainModelImpl).getPersonalInfo(object: ResponseResult<PersonalInfoEntity>{
             override fun onSuccess(t: PersonalInfoEntity) {
+                LocalCache.setUserData(t.data)
                 view.setHeaderImg()
-                view.setHeaderName(t.data.username)
+                view.setHeaderName(LocalCache.getUserName())
                 view.setHeaderRanking("现排名：${t.data.rank}\n总积分：${t.data.coinCount}")
+                //把是否获取本地cookie的flag置为false，表示下次不需要从本地获取，直接从内存读取
+                LocalCache.updateCookie = false
             }
 
             override fun onFail(code: Int, msg: String) {

@@ -12,6 +12,8 @@ open class Config {
 
         const val LOCAL_SP_NAME = "localData"
         const val SP_KEY_IS_LOGIN = "isLogin"
+        const val SP_KEY_COOKIE = "saveCookie"
+        const val SP_KEY_USERNAME = "saveUsername"
 
         var DENSITY = 0.0f
     }

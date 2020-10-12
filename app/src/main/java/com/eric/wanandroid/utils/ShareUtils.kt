@@ -18,6 +18,7 @@ class ShareUtils private constructor(
             is String -> sp.edit().putString(key, any).apply()
             is Boolean -> sp.edit().putBoolean(key, any).apply()
             is Int -> sp.edit().putInt(key, any).apply()
+            is Set<*> -> sp.edit().putStringSet(key, any as Set<String>).apply()
         }
     }
 
@@ -31,6 +32,10 @@ class ShareUtils private constructor(
 
     fun getInt(key: String): Int{
         return sp.getInt(key, Config.FAIL)
+    }
+
+    fun getStringSet(key: String): Set<String>? {
+        return sp.getStringSet(key, null)
     }
 
     companion object{

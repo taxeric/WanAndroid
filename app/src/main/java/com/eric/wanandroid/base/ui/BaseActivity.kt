@@ -1,10 +1,14 @@
 package com.eric.wanandroid.base.ui
 
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.mvp.BaseView
+import com.eric.wanandroid.utils.DialogUtils
 import com.eric.wanandroid.utils.LogUtils
 
 /**
@@ -17,6 +21,8 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
     private var toast: Toast ?= null
     private var isInited = false
 
+    protected lateinit var presenter: BasePresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(setLayout())
@@ -28,6 +34,7 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
         super.onStart()
         if (!isInited){
             isInited = true
+            presenter = installPresenter()
             initData()
         }
     }
@@ -49,6 +56,11 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
     open fun initData(){
     }
 
+    /**
+     * 安装P层
+     */
+    protected abstract fun installPresenter(): BasePresenter
+
     override fun showToast(msg: String){
         if (toast == null){
             toast = Toast.makeText(this, msg, Toast.LENGTH_LONG)
@@ -67,10 +79,27 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
     }
 
     override fun showLoadingDialog() {
-        TODO("Not yet implemented")
+        dialog = DialogUtils.showLoadingDialog(this, "请稍后")
+        dialog!!.show()
     }
 
     override fun disLoadingDialog() {
-        TODO("Not yet implemented")
+        DialogUtils.disDialog(dialog)
+    }
+
+    open fun toActivity(context: Context){
+        startActivity(Intent(this, context::class.java))
+    }
+
+    open fun toActivityForResult(
+        context: Context,
+        requestCode: Int
+    ){
+        startActivityForResult(Intent(this, context::class.java), requestCode)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachVM()
     }
 }

@@ -3,7 +3,9 @@ package com.eric.wanandroid.base.net
 import com.eric.wanandroid.bean.*
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 /**
@@ -39,8 +41,17 @@ interface OpenApi {
         @Path("page") page: String
     ): Call<QAEntity>
 
+    /**
+     * 获取广场文章
+     */
     @GET("user_article/list/{page}/json")
     fun getSquareArticle(
         @Path("page") page: String
     ): Call<SquareEntity>
+
+    @POST("user/login")
+    fun login(
+        @Query("username") unm: String,
+        @Query("password") pwd: String
+    ): Call<LoginResultEntity>
 }
