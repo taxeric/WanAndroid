@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 /**
  * Created by eric on 20-9-21
  */
-class HomeFragment: BaseFragment(), IHomeView, RvListener.OnItemClickListener,
+class HomeFragment: BaseFragment(), IHomeView, RvListener.OnItemClickLoadMoreListener,
     HomeBannerAdapter.OnBannerItemClickListener {
 
     override fun setLayout(): Int = R.layout.fragment_home
@@ -26,7 +26,13 @@ class HomeFragment: BaseFragment(), IHomeView, RvListener.OnItemClickListener,
         (presenter as HomePresenterImpl).getArticle()
     }
 
-    override fun onItemClick(position: Int) = (presenter as HomePresenterImpl).getArticle()
+    override fun onItemClick(position: Int, loadMore: Boolean) {
+        if (loadMore){
+            (presenter as HomePresenterImpl).getArticle()
+        } else {
+            (presenter as HomePresenterImpl).toWebView(position)
+        }
+    }
 
     override fun onBannerItemClick(url: String) {
         i("url = $url")

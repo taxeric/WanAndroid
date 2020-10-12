@@ -12,6 +12,7 @@ import com.eric.wanandroid.imodel.ISquareModel
 import com.eric.wanandroid.imodelImpl.ISquareModelImpl
 import com.eric.wanandroid.iview.ISquareView
 import com.eric.wanandroid.module.square.adapter.SquareRvAdapter
+import com.eric.wanandroid.ui.WebActivity
 import com.eric.wanandroid.utils.LogUtils
 
 /**
@@ -19,7 +20,7 @@ import com.eric.wanandroid.utils.LogUtils
  */
 class SquarePresenterImpl constructor(
         private val view: ISquareView,
-        context: Context,
+        private val context: Context,
         rvItemClickListener: RvListener.OnItemClickLoadMoreListener
 ): BasePresenter(), SquareRvAdapter.SetFootViewText {
 
@@ -58,6 +59,7 @@ class SquarePresenterImpl constructor(
 
     fun toWebView(position: Int){
         LogUtils.i(squareArticles[position].link)
+        WebActivity().intoActivity(context, "url", squareArticles[position].link)
     }
 
     override fun loadComplete(): String = "点击加载更多"

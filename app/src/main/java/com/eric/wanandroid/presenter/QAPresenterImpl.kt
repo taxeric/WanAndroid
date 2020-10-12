@@ -12,14 +12,16 @@ import com.eric.wanandroid.imodel.IQAModel
 import com.eric.wanandroid.imodelImpl.IQAModelImpl
 import com.eric.wanandroid.iview.IQAView
 import com.eric.wanandroid.module.qa.adapter.QARvAdapter
+import com.eric.wanandroid.ui.WebActivity
+import com.eric.wanandroid.utils.LogUtils
 
 /**
  * Created by eric on 20-9-22
  */
 class QAPresenterImpl constructor(
         private val view: IQAView,
-        context: Context,
-        rvItemClickListener: RvListener.OnItemClickListener
+        private val context: Context,
+        rvItemClickListener: RvListener.OnItemClickLoadMoreListener
 ): BasePresenter(), QARvAdapter.SetFootViewText {
 
     private val adapter: QARvAdapter
@@ -54,6 +56,11 @@ class QAPresenterImpl constructor(
                 view.updateQAList(false)
             }
         })
+    }
+
+    fun toWebView(position: Int){
+        LogUtils.i(qaList[position].link)
+        WebActivity().intoActivity(context, "url", qaList[position].link)
     }
 
     override fun loadComplete(): String = "点击加载更多"

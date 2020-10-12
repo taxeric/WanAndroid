@@ -21,7 +21,7 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
     private var toast: Toast ?= null
     private var isInited = false
 
-    protected lateinit var presenter: BasePresenter
+    protected var presenter: BasePresenter ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +59,9 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
     /**
      * 安装P层
      */
-    protected abstract fun installPresenter(): BasePresenter
+    open fun installPresenter(): BasePresenter?{
+        return null
+    }
 
     override fun showToast(msg: String){
         if (toast == null){
@@ -87,8 +89,12 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
         DialogUtils.disDialog(dialog)
     }
 
-    open fun toActivity(context: Context){
-        startActivity(Intent(this, context::class.java))
+    open fun intoActivity(context: Context){
+        context.startActivity(Intent(context, this::class.java))
+    }
+
+    open fun intoActivity(context: Context, key: String, value: String){
+        context.startActivity(Intent(context, this::class.java).putExtra(key, value))
     }
 
     open fun toActivityForResult(
@@ -100,6 +106,6 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.detachVM()
+        presenter?.detachVM()
     }
 }

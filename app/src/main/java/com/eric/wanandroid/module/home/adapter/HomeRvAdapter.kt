@@ -24,9 +24,9 @@ class HomeRvAdapter constructor(
     private val collected = R.drawable.ic_favorite_color
     private val noCollected = R.drawable.ic_favorite_border
 
-    private var listener: RvListener.OnItemClickListener ?= null
+    private var listener: RvListener.OnItemClickLoadMoreListener ?= null
 
-    fun setItemClickListener(listener: RvListener.OnItemClickListener){
+    fun setItemClickListener(listener: RvListener.OnItemClickLoadMoreListener){
         this.listener = listener
     }
 
@@ -61,6 +61,11 @@ class HomeRvAdapter constructor(
                     it.rv_home_article_share_time.text = "时间：${mutableList[position].niceShareDate}"
                     it.rv_home_article_share_user.text = "分享人：${mutableList[position].shareUser}"
                     it.rv_home_article_collected.setImageResource(if (mutableList[position].collect) collected else noCollected)
+                    it.setOnClickListener {
+                        if (listener != null){
+                            listener!!.onItemClick(position, false)
+                        }
+                    }
                 }
             }
         } else {
@@ -68,7 +73,7 @@ class HomeRvAdapter constructor(
             holder.itemView.setOnClickListener{
                 if (listener != null){
                     holder.itemView.click_load_more.text = setFootViewText.loading()
-                    listener!!.onItemClick(position)
+                    listener!!.onItemClick(position, true)
                 }
             }
         }

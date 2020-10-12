@@ -11,6 +11,7 @@ import com.eric.wanandroid.module.home.adapter.HomeBannerAdapter
 import com.eric.wanandroid.module.home.adapter.HomeRvAdapter
 import com.eric.wanandroid.imodelImpl.IHomeModelImpl
 import com.eric.wanandroid.iview.IHomeView
+import com.eric.wanandroid.ui.WebActivity
 import com.eric.wanandroid.utils.LogUtils
 
 /**
@@ -18,8 +19,8 @@ import com.eric.wanandroid.utils.LogUtils
  */
 class HomePresenterImpl(
     private val view: IHomeView,
-    context: Context,
-    rvItemClickListener: RvListener.OnItemClickListener,
+    private val context: Context,
+    rvItemClickListener: RvListener.OnItemClickLoadMoreListener,
     bannerItemClickListener: HomeBannerAdapter.OnBannerItemClickListener
 ): BasePresenter(), HomeRvAdapter.SetFootViewText {
 
@@ -86,6 +87,11 @@ class HomePresenterImpl(
                 view.updateArticle(false)
             }
         })
+    }
+
+    fun toWebView(position: Int){
+        LogUtils.i(articleMutableList[position].link)
+        WebActivity().intoActivity(context, "url", articleMutableList[position].link)
     }
 
     override fun loadComplete(): String = "点击加载更多"

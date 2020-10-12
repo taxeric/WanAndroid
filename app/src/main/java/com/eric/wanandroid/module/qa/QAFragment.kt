@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_qa.*
 /**
  * Created by eric on 20-10-10
  */
-class QAFragment: BaseFragment(), IQAView, RvListener.OnItemClickListener {
+class QAFragment: BaseFragment(), IQAView, RvListener.OnItemClickLoadMoreListener {
     override fun setLayout(): Int = R.layout.fragment_qa
 
     override fun installPresenter(): BasePresenter = QAPresenterImpl(this, context!!, this)
@@ -29,5 +29,11 @@ class QAFragment: BaseFragment(), IQAView, RvListener.OnItemClickListener {
         }
     }
 
-    override fun onItemClick(position: Int) = (presenter as QAPresenterImpl).getQAList()
+    override fun onItemClick(position: Int, loadMore: Boolean){
+        if (loadMore) {
+            (presenter as QAPresenterImpl).getQAList()
+        } else {
+            (presenter as QAPresenterImpl).toWebView(position)
+        }
+    }
 }
