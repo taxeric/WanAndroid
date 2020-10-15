@@ -13,4 +13,8 @@ interface RvListener {
     interface OnItemClickLoadMoreListener {
         fun onItemClick(position: Int, loadMore: Boolean)
     }
+
+    interface OnCollectedItemListener{
+        fun collected(position: Int)
+    }
 }

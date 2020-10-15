@@ -27,9 +27,14 @@ class SquareRvAdapter constructor(
     private val noCollected = R.drawable.ic_favorite_border
 
     private var listener: RvListener.OnItemClickLoadMoreListener ?= null
+    private var collectedListener: RvListener.OnCollectedItemListener ?= null
 
     fun setItemClickListener(listener: RvListener.OnItemClickLoadMoreListener){
         this.listener = listener
+    }
+
+    fun setCollectArticleListener(collectedListener: RvListener.OnCollectedItemListener){
+        this.collectedListener = collectedListener
     }
 
     private val NORMAL_FLAG = 0
@@ -68,6 +73,11 @@ class SquareRvAdapter constructor(
                     it.setOnClickListener {
                         if (listener != null){
                             listener!!.onItemClick(position, false)
+                        }
+                    }
+                    it.rv_square_article_collected.setOnClickListener {
+                        if (collectedListener != null){
+                            collectedListener!!.collected(position)
                         }
                     }
                 }

@@ -49,9 +49,28 @@ interface OpenApi {
         @Path("page") page: String
     ): Call<SquareEntity>
 
+    /**
+     * 登录
+     */
     @POST("user/login")
     fun login(
         @Query("username") unm: String,
         @Query("password") pwd: String
     ): Call<LoginResultEntity>
+
+    /**
+     * 收藏文章
+     */
+    @POST("lg/collect/{id}/json")
+    fun collectArticle(
+        @Path("id") id: Int
+    ): Call<BaseEntity>
+
+    /**
+     * 取消收藏文章
+     */
+    @POST("lg/uncollect_originId/{id}/json")
+    fun uncollectArticle(
+        @Path("id") id: Int
+    ): Call<BaseEntity>
 }

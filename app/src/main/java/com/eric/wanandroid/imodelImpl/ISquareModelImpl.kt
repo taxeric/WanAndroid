@@ -1,6 +1,7 @@
 package com.eric.wanandroid.imodelImpl
 
 import com.eric.wanandroid.base.Config
+import com.eric.wanandroid.base.net.BaseEntity
 import com.eric.wanandroid.base.net.ResponseResult
 import com.eric.wanandroid.base.net.RetrofitUtils
 import com.eric.wanandroid.bean.SquareEntity
@@ -16,6 +17,8 @@ import retrofit2.Response
 class ISquareModelImpl: ISquareModel {
 
     private var personalInfoCall: Call<SquareEntity> ?= null
+    private var collectCall: Call<BaseEntity> ?= null
+    private var uncollectCall: Call<BaseEntity> ?= null
     private var nowPage = 0
 
     override fun getSquareArticle(result: ResponseResult<SquareEntity>) {
@@ -37,7 +40,45 @@ class ISquareModelImpl: ISquareModel {
         })
     }
 
+    override fun collectArticle(id: Int, result: ResponseResult<BaseEntity>) {
+        collectCall = RetrofitUtils.getInstance().get().collectArticle(id)
+        collectCall!!.enqueue(object: Callback<BaseEntity>{
+            override fun onFailure(call: Call<BaseEntity>, t: Throwable) {
+                result.onFail(Config.FAIL, t.message!!)
+            }
+
+            override fun onResponse(call: Call<BaseEntity>, response: Response<BaseEntity>) {
+                if (response.isSuccessful){
+                    val e = response.body()
+                    result.onSuccess(e!!)
+                } else {
+                    result.onFail(response.code(), "collect article is failed")
+                }
+            }
+        })
+    }
+
+    override fun uncollectArticle(id: Int, result: ResponseResult<BaseEntity>) {
+        uncollectCall = RetrofitUtils.getInstance().get().uncollectArticle(id)
+        uncollectCall!!.enqueue(object: Callback<BaseEntity>{
+            override fun onFailure(call: Call<BaseEntity>, t: Throwable) {
+                result.onFail(Config.FAIL, t.message!!)
+            }
+
+            override fun onResponse(call: Call<BaseEntity>, response: Response<BaseEntity>) {
+                if (response.isSuccessful){
+                    val e = response.body()
+                    result.onSuccess(e!!)
+                } else {
+                    result.onFail(response.code(), "uncollect article is failed")
+                }
+            }
+        })
+    }
+
     override fun onDestory() {
         RetrofitUtils.disCall(personalInfoCall)
+        RetrofitUtils.disCall(collectCall)
+        RetrofitUtils.disCall(uncollectCall)
     }
 }

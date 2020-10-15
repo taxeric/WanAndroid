@@ -1,6 +1,7 @@
 package com.eric.wanandroid.imodel
 
 import com.eric.wanandroid.base.mvp.BaseModel
+import com.eric.wanandroid.base.net.BaseEntity
 import com.eric.wanandroid.base.net.ResponseResult
 import com.eric.wanandroid.bean.SquareEntity
 
@@ -10,4 +11,6 @@ import com.eric.wanandroid.bean.SquareEntity
 interface ISquareModel: BaseModel {
 
     fun getSquareArticle(result: ResponseResult<SquareEntity>)
+    fun collectArticle(id: Int, result: ResponseResult<BaseEntity>)
+    fun uncollectArticle(id: Int, result: ResponseResult<BaseEntity>)
 }

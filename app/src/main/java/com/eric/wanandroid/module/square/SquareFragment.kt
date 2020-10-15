@@ -12,11 +12,14 @@ import kotlinx.android.synthetic.main.fragment_square.*
 /**
  * Created by eric on 20-10-10
  */
-class SquareFragment: BaseFragment(), ISquareView, RvListener.OnItemClickLoadMoreListener {
+class SquareFragment: BaseFragment(), ISquareView,
+    RvListener.OnItemClickLoadMoreListener,
+    RvListener.OnCollectedItemListener{
 
     override fun setLayout(): Int = R.layout.fragment_square
 
-    override fun installPresenter(): BasePresenter = SquarePresenterImpl(this, context!!, this)
+    override fun installPresenter(): BasePresenter =
+        SquarePresenterImpl(this, context!!, this, this)
 
     override fun getRv(): RecyclerView = square_rv
 
@@ -37,4 +40,6 @@ class SquareFragment: BaseFragment(), ISquareView, RvListener.OnItemClickLoadMor
             (presenter as SquarePresenterImpl).toWebView(position)
         }
     }
+
+    override fun collected(position: Int) = (presenter as SquarePresenterImpl).collected(position)
 }
