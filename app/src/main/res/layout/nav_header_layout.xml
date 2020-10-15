@@ -7,13 +7,15 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/header_img"
+        app:shapeAppearanceOverlay="@style/CircleStyle"
         android:src="@drawable/ic_android"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="150dp"
-        android:layout_height="150dp"/>
+        android:layout_width="120dp"
+        android:layout_height="120dp"/>
 
     <TextView
         android:id="@+id/header_name"

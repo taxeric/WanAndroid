@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.view.MenuItem
 import android.view.View
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.request.RequestOptions
 import com.eric.wanandroid.R
 import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.ui.BaseActivity
@@ -74,7 +77,11 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
     }
 
     override fun setHeaderImg() {
-        headerView.header_img.setImageResource(R.drawable.aa)
+        val builder = RequestOptions().error(R.drawable.bb)
+        Glide.with(this)
+            .load("https://q1.qlogo.cn/g?b=qq&nk=1248389474&s=640")
+            .apply(builder)
+            .into(headerView.header_img)
     }
 
     override fun setHeaderName(name: String) {
