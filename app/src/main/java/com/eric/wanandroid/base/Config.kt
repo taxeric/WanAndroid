@@ -14,6 +14,7 @@ open class Config {
         const val SP_KEY_IS_LOGIN = "isLogin"
         const val SP_KEY_COOKIE = "saveCookie"
         const val SP_KEY_USERNAME = "saveUsername"
+        const val SP_KEY_USERHEAD_IMG_ID = "headImgID"
 
         var DENSITY = 0.0f
     }

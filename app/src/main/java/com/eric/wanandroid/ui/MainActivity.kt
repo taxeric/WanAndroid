@@ -2,6 +2,7 @@ package com.eric.wanandroid.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
@@ -21,10 +22,12 @@ import com.eric.wanandroid.utils.ActivityUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.tool_bar
+import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.nav_header_layout.view.*
 
 class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSelectedListener,
-    BottomNavigationView.OnNavigationItemSelectedListener {
+    BottomNavigationView.OnNavigationItemSelectedListener, MainPresenterImpl.UpdateListener {
 
     private val REQUEST_CODE = 101
     private var isLogin: Boolean = false
@@ -43,9 +46,17 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
 
     override fun initListener() {
         bottom_nav.setOnNavigationItemSelectedListener(this)
+        nav_view.setNavigationItemSelectedListener{
+            when (it.itemId){
+                R.id.nav_setting -> SettingActivity().intoActivity(this)
+            }
+            false
+        }
     }
 
     override fun initData() {
+        MainPresenterImpl.registerUpdateListener(this)
+        setSupportActionBar(tool_bar)
         curFragment = fragments[0]
         ActivityUtils.addFragmentToActivity(supportFragmentManager, fragments[0], "home", R.id.main_frame_layout)
         initDrawerData()
@@ -79,7 +90,7 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
     override fun setHeaderImg() {
         val builder = RequestOptions().error(R.drawable.bb)
         Glide.with(this)
-            .load("https://q1.qlogo.cn/g?b=qq&nk=1248389474&s=640")
+            .load("https://q1.qlogo.cn/g?b=qq&nk=${LocalCache.userHeadImg}&s=640")
             .apply(builder)
             .into(headerView.header_img)
     }
@@ -103,6 +114,18 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
                 (presenter as MainPresenterImpl).getInfo()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.tool_bar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_search){
+            SearchActivity().intoActivity(this)
+        }
+        return true
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -135,5 +158,9 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
         tool_bar.title = titles[index]
         ActivityUtils.switchFragment(supportFragmentManager, curFragment, fragments[index], titles[index], R.id.main_frame_layout)
         curFragment = fragments[index]
+    }
+
+    override fun update() {
+        setHeaderImg()
     }
 }

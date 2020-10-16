@@ -40,4 +40,21 @@ class MainPresenterImpl constructor(
             }
         })
     }
+
+    interface UpdateListener{
+        fun update()
+    }
+
+    companion object{
+
+        private var updateListener: UpdateListener ?= null
+
+        fun registerUpdateListener(updateListener: UpdateListener){
+            this.updateListener = updateListener
+        }
+
+        fun update(){
+            updateListener!!.update()
+        }
+    }
 }

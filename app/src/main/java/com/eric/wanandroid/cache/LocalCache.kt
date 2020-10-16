@@ -1,6 +1,7 @@
 package com.eric.wanandroid.cache
 
 import com.eric.wanandroid.base.Config
+import com.eric.wanandroid.bean.HotSearchEntityData
 import com.eric.wanandroid.bean.LoginResultData
 import com.eric.wanandroid.bean.PersonalDetailData
 import com.eric.wanandroid.utils.LogUtils
@@ -19,6 +20,8 @@ class LocalCache {
         private var userData: PersonalDetailData ?= null
 
         var updateCookie = false
+        var hotSearch = mutableListOf<HotSearchEntityData>()
+        var userHeadImg = ShareUtils.getInstance().getString(Config.SP_KEY_USERHEAD_IMG_ID)
 
         private var username = ""
 
@@ -28,6 +31,9 @@ class LocalCache {
         }
 
         fun getUserName(): String{
+            if (username.isEmpty()){
+                username = ShareUtils.getInstance().getString(Config.SP_KEY_USERNAME)
+            }
             return username
         }
 

@@ -73,4 +73,19 @@ interface OpenApi {
     fun uncollectArticle(
         @Path("id") id: Int
     ): Call<BaseEntity>
+
+    /**
+     * 获取搜索热词
+     */
+    @GET("hotkey/json")
+    fun getHotSearch(): Call<HotSearchEntity>
+
+    /**
+     * 搜索文章
+     */
+    @POST("article/query/{page}/json")
+    fun searchArticle(
+        @Path("page") page: String,
+        @Query("k") k: String
+    ): Call<SearchEntity>
 }

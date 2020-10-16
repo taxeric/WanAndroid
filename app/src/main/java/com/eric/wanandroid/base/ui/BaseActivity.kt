@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.mvp.BaseView
 import com.eric.wanandroid.utils.DialogUtils
