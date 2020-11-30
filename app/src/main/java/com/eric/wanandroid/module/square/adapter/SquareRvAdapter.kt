@@ -20,8 +20,9 @@ import kotlinx.android.synthetic.main.rv_item_square_normal.view.*
 class SquareRvAdapter constructor(
     private val context: Context,
     private val mutableList: MutableList<SquareDataX>,
-    private val setFootViewText: SetFootViewText
-): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val setFootViewText: SetFootViewText,
+    private val recyclerView: RecyclerView
+): RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
 
     private val collected = R.drawable.ic_favorite_color
     private val noCollected = R.drawable.ic_favorite_border
@@ -63,18 +64,15 @@ class SquareRvAdapter constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NormalViewHolder){
             if (position != mutableList.size) {
+                val entity = mutableList[position]
                 holder.itemView.let {
-                    it.rv_square_article_isnew.visibility = if (mutableList[position].fresh) View.VISIBLE else View.GONE
-                    it.rv_square_article_author.text = mutableList[position].shareUser
-                    it.rv_square_article_nice_date.text = mutableList[position].niceDate
-                    it.rv_square_article_title.text = Html.fromHtml(mutableList[position].title)
-                    it.rv_square_article_chapter.text = "${mutableList[position].superChapterName}·${mutableList[position].chapterName}"
-                    it.rv_square_article_collected.setImageResource(if (mutableList[position].collect) collected else noCollected)
-                    it.setOnClickListener {
-                        if (listener != null){
-                            listener!!.onItemClick(position, false)
-                        }
-                    }
+                    it.rv_square_article_isnew.visibility = if (entity.fresh) View.VISIBLE else View.GONE
+                    it.rv_square_article_author.text = entity.shareUser
+                    it.rv_square_article_nice_date.text = entity.niceDate
+                    it.rv_square_article_title.text = Html.fromHtml(entity.title)
+                    it.rv_square_article_chapter.text = "${entity.superChapterName}·${entity.chapterName}"
+                    it.rv_square_article_collected.setImageResource(if (entity.collect) collected else noCollected)
+                    it.setOnClickListener(this)
                     it.rv_square_article_collected.setOnClickListener {
                         if (collectedListener != null){
                             collectedListener!!.collected(position)
@@ -89,6 +87,15 @@ class SquareRvAdapter constructor(
                     holder.itemView.click_load_more.text = setFootViewText.loading()
                     listener!!.onItemClick(position, true)
                 }
+            }
+        }
+    }
+
+    override fun onClick(v: View) {
+        listener?.let {
+            val index = recyclerView.getChildAdapterPosition(v)
+            if (index != itemCount - 1) {
+                it.onItemClick(index, false)
             }
         }
     }

@@ -37,7 +37,7 @@ class StrokeTextView: AppCompatTextView {
         paint.color = strokeColor
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = DpPxUtils.dp2px(strokeWidth).toFloat()
-        LogUtils.i("strokeWidth = $strokeWidth & ${DpPxUtils.dp2px(strokeWidth.toFloat()).toFloat()}")
+//        LogUtils.i("strokeWidth = $strokeWidth & ${DpPxUtils.dp2px(strokeWidth.toFloat()).toFloat()}")
         typeArray.recycle()
     }
 }

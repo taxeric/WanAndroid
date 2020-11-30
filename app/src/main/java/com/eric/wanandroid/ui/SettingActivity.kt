@@ -1,11 +1,9 @@
 package com.eric.wanandroid.ui
 
-import android.content.DialogInterface
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import android.widget.CompoundButton
-import androidx.appcompat.app.AppCompatDelegate
 import com.eric.wanandroid.R
 import com.eric.wanandroid.base.Config
 import com.eric.wanandroid.base.ui.BaseActivity

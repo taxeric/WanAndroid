@@ -19,6 +19,8 @@
     <string name="pwd">密码</string>
     <string name="login">登录</string>
 
+    <string name="coin">积分</string>
+
     <string name="night_mode">暗色模式</string>
     <string name="header_img_id">头像账号</string>
 </resources>

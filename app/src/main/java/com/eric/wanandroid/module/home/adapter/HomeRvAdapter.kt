@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eric.wanandroid.R
 import com.eric.wanandroid.base.RvListener
 import com.eric.wanandroid.bean.HomeDataX
+import com.eric.wanandroid.utils.LogUtils
 import kotlinx.android.synthetic.main.rv_item_footer.view.*
 import kotlinx.android.synthetic.main.rv_item_home_normal.view.*
 
@@ -18,8 +19,9 @@ import kotlinx.android.synthetic.main.rv_item_home_normal.view.*
 class HomeRvAdapter constructor(
     private val context: Context,
     private val mutableList: MutableList<HomeDataX>,
-    private val setFootViewText: SetFootViewText
-): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val setFootViewText: SetFootViewText,
+    private val recyclerView: RecyclerView
+): RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
 
     private val collected = R.drawable.ic_favorite_color
     private val noCollected = R.drawable.ic_favorite_border
@@ -54,18 +56,15 @@ class HomeRvAdapter constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NormalViewHolder){
             if (position != mutableList.size) {
+                val entity = mutableList[position]
                 holder.itemView.let {
-                    it.rv_home_article_title.text = Html.fromHtml(mutableList[position].title)
-                    it.rv_home_article_new.visibility = if (mutableList[position].fresh) View.VISIBLE else View.GONE
-                    it.rv_home_article_qa.visibility = if (mutableList[position].superChapterId == 440) View.VISIBLE else View.GONE
-                    it.rv_home_article_share_time.text = "时间：${mutableList[position].niceShareDate}"
-                    it.rv_home_article_share_user.text = "分享人：${mutableList[position].shareUser}"
-                    it.rv_home_article_collected.setImageResource(if (mutableList[position].collect) collected else noCollected)
-                    it.setOnClickListener {
-                        if (listener != null){
-                            listener!!.onItemClick(position, false)
-                        }
-                    }
+                    it.rv_home_article_title.text = Html.fromHtml(entity.title)
+                    it.rv_home_article_new.visibility = if (entity.fresh) View.VISIBLE else View.GONE
+                    it.rv_home_article_qa.visibility = if (entity.superChapterId == 440) View.VISIBLE else View.GONE
+                    it.rv_home_article_share_time.text = "时间：${entity.niceShareDate}"
+                    it.rv_home_article_share_user.text = "分享人：${if (entity.shareUser.isNullOrEmpty()) entity.author else entity.shareUser}"
+                    it.rv_home_article_collected.setImageResource(if (entity.collect) collected else noCollected)
+                    it.setOnClickListener(this)
                 }
             }
         } else {
@@ -75,6 +74,15 @@ class HomeRvAdapter constructor(
                     holder.itemView.click_load_more.text = setFootViewText.loading()
                     listener!!.onItemClick(position, true)
                 }
+            }
+        }
+    }
+
+    override fun onClick(v: View) {
+        listener?.let {
+            val index = recyclerView.getChildAdapterPosition(v)
+            if (index != itemCount - 1){
+                it.onItemClick(index, false)
             }
         }
     }

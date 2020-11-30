@@ -41,6 +41,8 @@ class LocalCache {
             this.userData = userData
         }
 
+        fun getUserData(): PersonalDetailData? = userData
+
         fun getLoginStatus(isRequest: Boolean): Boolean{
             if (isRequest){
                 isLogin = ShareUtils.getInstance().getBoolean(Config.SP_KEY_IS_LOGIN)

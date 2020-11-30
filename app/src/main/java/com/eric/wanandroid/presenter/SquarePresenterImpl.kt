@@ -34,10 +34,11 @@ class SquarePresenterImpl constructor(
         attachModel()
         view.getRv().layoutManager = LinearLayoutManager(context)
         adapter = SquareRvAdapter(
-                context,
-                squareArticles,
-                this
-            )
+            context,
+            squareArticles,
+            this,
+            view.getRv()
+        )
         adapter.setItemClickListener(rvItemClickListener)
         adapter.setCollectArticleListener(rvCollectedArticle)
         view.getRv().adapter = adapter

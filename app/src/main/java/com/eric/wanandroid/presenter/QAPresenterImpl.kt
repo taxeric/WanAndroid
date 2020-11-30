@@ -31,12 +31,12 @@ class QAPresenterImpl constructor(
         attachView(view)
         attachModel()
         view.getRv().layoutManager = LinearLayoutManager(context)
-        adapter =
-            QARvAdapter(
-                context,
-                qaList,
-                this
-            )
+        adapter = QARvAdapter(
+            context,
+            qaList,
+            this,
+            view.getRv()
+        )
         adapter.setItemClickListener(rvItemClickListener)
         view.getRv().adapter = adapter
     }

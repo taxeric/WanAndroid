@@ -5,6 +5,8 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.eric.wanandroid.R
 import com.eric.wanandroid.base.RvListener
@@ -18,8 +20,9 @@ import kotlinx.android.synthetic.main.rv_item_qa_normal.view.*
 class QARvAdapter constructor(
     private val context: Context,
     private val mutableList: MutableList<QADataX>,
-    private val setFootViewText: SetFootViewText
-): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val setFootViewText: SetFootViewText,
+    private val recyclerView: RecyclerView
+): RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
 
     private val collected = R.drawable.ic_favorite_color
     private val noCollected = R.drawable.ic_favorite_border
@@ -56,19 +59,16 @@ class QARvAdapter constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NormalViewHolder){
             if (position != mutableList.size) {
+                val entity = mutableList[position]
                 holder.itemView.let {
-                    it.rv_qa_article_author.text = mutableList[position].author
-                    it.rv_qa_article_nice_date.text = mutableList[position].niceDate
-                    it.rv_qa_article_title.text = Html.fromHtml(mutableList[position].title)
-                    it.rv_qa_article_desc.text = Html.fromHtml(mutableList[position].desc).toString().replace("\n", "")
-                    it.rv_qa_tag_name.text = mutableList[position].tags[0].name
-                    it.rv_qa_article_chapter.text = "${mutableList[position].tags[1].name}·${mutableList[position].chapterName}"
-                    it.rv_qa_article_collected.setImageResource(if (mutableList[position].collect) collected else noCollected)
-                    it.setOnClickListener {
-                        if (listener != null){
-                            listener!!.onItemClick(position, false)
-                        }
-                    }
+                    it.rv_qa_article_author.text = entity.author
+                    it.rv_qa_article_nice_date.text = entity.niceDate
+                    it.rv_qa_article_title.text = Html.fromHtml(entity.title)
+                    it.rv_qa_article_desc.text = Html.fromHtml(entity.desc).toString().replace("\n", "")
+                    it.rv_qa_tag_name.text = entity.tags[0].name
+                    it.rv_qa_article_chapter.text = "${entity.tags[1].name}·${entity.chapterName}"
+                    it.rv_qa_article_collected.setImageResource(if (entity.collect) collected else noCollected)
+                    it.setOnClickListener(this)
                 }
             }
         } else {
@@ -78,6 +78,15 @@ class QARvAdapter constructor(
                     holder.itemView.click_load_more.text = setFootViewText.loading()
                     listener!!.onItemClick(position, true)
                 }
+            }
+        }
+    }
+
+    override fun onClick(v: View) {
+        listener?.let {
+            val index = recyclerView.getChildAdapterPosition(v)
+            if (index != itemCount - 1){
+                it.onItemClick(index, false)
             }
         }
     }

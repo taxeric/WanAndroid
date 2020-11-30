@@ -1,6 +1,8 @@
 package com.eric.wanandroid.utils
 
 import android.content.Context
+import android.content.res.Resources
+import android.util.TypedValue
 import com.eric.wanandroid.base.Config
 
 /**
@@ -10,16 +12,8 @@ class DpPxUtils {
 
     companion object{
 
-        fun dp2px(
-            dpValue: Float
-        ): Int{
-            return (dpValue * Config.DENSITY + 0.5f).toInt()
-        }
+        private val DISPLAY_METRICS = Resources.getSystem().displayMetrics
 
-        fun px2dp(
-            pxValue: Float
-        ): Int{
-            return (pxValue / Config.DENSITY + 0.5f).toInt()
-        }
+        fun dp2px(dpValue: Float): Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, DISPLAY_METRICS);
     }
 }

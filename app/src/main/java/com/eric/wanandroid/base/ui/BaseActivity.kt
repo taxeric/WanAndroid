@@ -1,5 +1,6 @@
 package com.eric.wanandroid.base.ui
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -64,9 +65,10 @@ abstract class BaseActivity: AppCompatActivity(), BaseView {
         return null
     }
 
+    @SuppressLint("ShowToast")
     override fun showToast(msg: String){
         if (toast == null){
-            toast = Toast.makeText(this, msg, Toast.LENGTH_LONG)
+            toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
         } else {
             toast?.setText(msg)
         }

@@ -5,6 +5,7 @@ import com.eric.wanandroid.base.net.ResponseResult
 import com.eric.wanandroid.base.net.RetrofitUtils
 import com.eric.wanandroid.bean.PersonalInfoEntity
 import com.eric.wanandroid.imodel.IMainModel
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,6 +17,7 @@ import retrofit2.Response
 class IMainModelImpl: IMainModel {
 
     private var personalInfoCall: Call<PersonalInfoEntity> ?= null
+    private var savePicCall: Call<ResponseBody> ?= null
 
     override fun getPersonalInfo(result: ResponseResult<PersonalInfoEntity>) {
         personalInfoCall = RetrofitUtils.getInstance().get().getPersonalInfo()
@@ -35,7 +37,11 @@ class IMainModelImpl: IMainModel {
         })
     }
 
+    override fun saveAvatar(url: String, result: ResponseResult<ResponseBody>) {
+    }
+
     override fun onDestory() {
         RetrofitUtils.disCall(personalInfoCall)
+        RetrofitUtils.disCall(savePicCall)
     }
 }

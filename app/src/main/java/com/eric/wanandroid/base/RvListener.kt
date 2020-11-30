@@ -6,10 +6,6 @@ package com.eric.wanandroid.base
  */
 interface RvListener {
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
     interface OnItemClickLoadMoreListener {
         fun onItemClick(position: Int, loadMore: Boolean)
     }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
+        app:title="@string/coin"
+        app:navigationIcon="@drawable/ic_back"
+        app:contentInsetStartWithNavigation="0dp"
+        android:background="@color/teal_200"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+
+    <TextView
+        android:id="@+id/show_mine_coin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -41,6 +41,9 @@ class MainPresenterImpl constructor(
         })
     }
 
+    fun saveAvatar(){
+    }
+
     interface UpdateListener{
         fun update()
     }
@@ -54,7 +57,7 @@ class MainPresenterImpl constructor(
         }
 
         fun update(){
-            updateListener!!.update()
+            updateListener?.update()
         }
     }
 }

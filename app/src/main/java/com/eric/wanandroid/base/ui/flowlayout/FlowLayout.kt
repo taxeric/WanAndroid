@@ -15,7 +15,7 @@ class FlowLayout constructor(
     attributeSet: AttributeSet
 ): ViewGroup(context, attributeSet), OnTagUpdateListener{
 
-    private val pxDefaultMargin = DpPxUtils.dp2px(10f)
+    private val pxDefaultMargin = DpPxUtils.dp2px(10f).toInt()
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -27,7 +27,7 @@ class FlowLayout constructor(
             val childCount = childCount
             for (i in 0 until childCount){
                 val childView = getChildAt(i)
-                LogUtils.i("child view = $childView")
+//                LogUtils.i("child view = $childView")
                 val params = childView.layoutParams as MarginLayoutParams
                 val lM = if (params.leftMargin == 0) pxDefaultMargin else params.leftMargin
                 val rM = if (params.rightMargin == 0) pxDefaultMargin else params.rightMargin
@@ -112,11 +112,11 @@ class FlowLayout constructor(
 
     private fun setChildClick(childView: View){
         if (childView.tag == null){
-            childView.setTag(mCurrentItemIndex)
+            childView.tag = mCurrentItemIndex
         }
         childView.setOnClickListener {
             if (tagCheckListener != null){
-                tagCheckListener!!.onItemCheck(childView.getTag() as Int)
+                tagCheckListener!!.onItemCheck(childView.tag as Int)
             }
         }
     }
@@ -129,7 +129,7 @@ class FlowLayout constructor(
             for (i in 0 until count){
                 addView(adapter!!.getView(i))
             }
-            requestLayout()
+            invalidate()
         }
     }
 

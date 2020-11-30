@@ -39,16 +39,16 @@ class HomePresenterImpl(
         articleAdapter = HomeRvAdapter(
             context,
             articleMutableList,
-            this
+            this,
+            view.getRv()
         )
         articleAdapter.setItemClickListener(rvItemClickListener)
         view.getRv().adapter = articleAdapter
 
-        bannerAdapter =
-            HomeBannerAdapter(
-                context,
-                bannerDataList
-            )
+        bannerAdapter = HomeBannerAdapter(
+            context,
+            bannerDataList
+        )
         bannerAdapter.setOnBannerClickListener(bannerItemClickListener)
         view.getVP().adapter = bannerAdapter
     }

@@ -3,6 +3,7 @@ package com.eric.wanandroid.imodel
 import com.eric.wanandroid.base.mvp.BaseModel
 import com.eric.wanandroid.base.net.ResponseResult
 import com.eric.wanandroid.bean.PersonalInfoEntity
+import okhttp3.ResponseBody
 
 
 /**
@@ -11,4 +12,5 @@ import com.eric.wanandroid.bean.PersonalInfoEntity
 interface IMainModel: BaseModel {
 
     fun getPersonalInfo(result: ResponseResult<PersonalInfoEntity>)
+    fun saveAvatar(url: String, result: ResponseResult<ResponseBody>)
 }

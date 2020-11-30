@@ -27,7 +27,8 @@ import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.nav_header_layout.view.*
 
 class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSelectedListener,
-    BottomNavigationView.OnNavigationItemSelectedListener, MainPresenterImpl.UpdateListener {
+    BottomNavigationView.OnNavigationItemSelectedListener, MainPresenterImpl.UpdateListener,
+    View.OnClickListener {
 
     private val REQUEST_CODE = 101
     private var isLogin: Boolean = false
@@ -38,7 +39,7 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
     private val fragments = arrayOf<BaseFragment>(
         HomeFragment(), SquareFragment(), QAFragment()
     )
-    private val titles = arrayOf<String>(
+    private val titles = arrayOf(
         "首页", "广场", "问答"
     )
 
@@ -48,7 +49,14 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
         bottom_nav.setOnNavigationItemSelectedListener(this)
         nav_view.setNavigationItemSelectedListener{
             when (it.itemId){
-                R.id.nav_setting -> SettingActivity().intoActivity(this)
+                R.id.nav_setting    -> SettingActivity().intoActivity(this)
+                R.id.nav_star       -> {
+                    if (!isLogin){
+                        showToast("请先登录")
+                    } else {
+                        CoinActivity().intoActivity(this)
+                    }
+                }
             }
             false
         }
@@ -77,7 +85,7 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
             headerView.header_name.text = getString(R.string.please_login)
             headerView.header_ranking.text = ""
         }
-        headerView.header_img.setOnClickListener { login() }
+        headerView.header_img.setOnClickListener(this)
     }
 
     private fun login() {
@@ -122,8 +130,8 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_search){
-            SearchActivity().intoActivity(this)
+        when (item.itemId){
+            R.id.menu_search    -> SearchActivity().intoActivity(this)
         }
         return true
     }
@@ -162,5 +170,11 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
 
     override fun update() {
         setHeaderImg()
+    }
+
+    override fun onClick(v: View) {
+        when (v.id){
+            R.id.header_img -> login()
+        }
     }
 }
