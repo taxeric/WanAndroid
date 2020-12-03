@@ -10,10 +10,33 @@
         app:title="@string/setting"
         app:navigationIcon="@drawable/ic_back"
         app:contentInsetStartWithNavigation="0dp"
-        android:background="@color/teal_200"
+        style="@style/CustomActionBarStyle"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/CustomTextViewStyle"
+            android:layout_marginTop="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
+            android:text="暗色模式-跟随系统"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
+            android:enabled="false"
+            android:checked="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/set_night_mode"
@@ -38,7 +61,7 @@
             android:paddingBottom="10dp"
             android:paddingStart="20dp"
             android:paddingEnd="10dp"
-            android:textColor="@color/black"
+            style="@style/CustomTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

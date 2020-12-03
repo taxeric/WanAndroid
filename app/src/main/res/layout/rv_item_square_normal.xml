@@ -53,7 +53,7 @@
         android:textSize="18sp"
         android:text="呵呵哈哈哈或或或或或或或或或或或或或或或或"
         android:maxLines="1"
-        android:textColor="#000000"
+        style="@style/CustomTextViewStyle"
         android:ellipsize="end"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

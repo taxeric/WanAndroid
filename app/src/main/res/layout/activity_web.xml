@@ -10,7 +10,7 @@
         android:id="@+id/tool_bar"
         app:navigationIcon="@drawable/ic_back"
         app:contentInsetStartWithNavigation="0dp"
-        android:background="@color/teal_200"
+        style="@style/CustomActionBarStyle"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>

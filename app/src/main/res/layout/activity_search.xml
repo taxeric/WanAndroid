@@ -6,9 +6,11 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:navigationIcon="@drawable/ic_back"
         app:contentInsetStartWithNavigation="0dp"
-        android:background="@color/teal_200"
+        style="@style/CustomActionBarStyle"
         app:menu="@menu/tool_bar_menu"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:layout_width="match_parent"

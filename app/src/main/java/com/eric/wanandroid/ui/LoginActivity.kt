@@ -1,12 +1,14 @@
 package com.eric.wanandroid.ui
 
 import android.app.Activity
+import android.os.Environment
 import android.view.MenuItem
 import com.eric.wanandroid.R
 import com.eric.wanandroid.base.mvp.BasePresenter
 import com.eric.wanandroid.base.ui.BaseActivity
 import com.eric.wanandroid.iview.ILoginView
 import com.eric.wanandroid.presenter.LoginPresenterImpl
+import com.eric.wanandroid.utils.LogUtils
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -18,7 +20,9 @@ class LoginActivity: BaseActivity(), ILoginView {
 
     override fun initListener() {
         setSupportActionBar(tool_bar)
-        btn_login.setOnClickListener { (presenter as LoginPresenterImpl).login() }
+        btn_login.setOnClickListener {
+            (presenter as LoginPresenterImpl).login()
+        }
     }
 
     override fun installPresenter(): BasePresenter = LoginPresenterImpl(this)

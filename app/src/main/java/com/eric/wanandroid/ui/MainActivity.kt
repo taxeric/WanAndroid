@@ -85,6 +85,7 @@ class MainActivity: BaseActivity(), IMainView, NavigationView.OnNavigationItemSe
             headerView.header_name.text = getString(R.string.please_login)
             headerView.header_ranking.text = ""
         }
+        setHeaderImg()
         headerView.header_img.setOnClickListener(this)
     }
 

@@ -102,6 +102,10 @@ class SearchPresenterImpl constructor(
                     searchData.addAll(t.data.datas)
                     nowPage ++
                     setFlowLayoutVisibility(false)
+                    if (searchData.isEmpty()){
+                        view.showToast("没有找到内容～")
+                        nowPage --
+                    }
                 } else {
                     view.showToast("搜索失败xxx")
                 }
